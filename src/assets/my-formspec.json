@@ -1,0 +1,148 @@
+{
+  "navigation": {
+    "label": "Jaarverslag (De grote navigation parent)",
+    "type": "NAVIGATION_ABSTRACT (Uitklapbaar maar niet een link)",
+    "expanded": false,
+    "children": [
+      {
+        "label": "Informatie over de rapportage en de rechtspersoon",
+        "expanded": false,
+        "children": [
+          {
+            "label": "Informatie over de rechtspersoon",
+            "type": "PAGE_ABSTRACT (Een link naar formpagina)",
+            "pageId": "{http://www.nltaxonomie.nl/nt17/kvk/20221214/ontology/kvk-portal-abstracts}EntityInformationPageTitle"
+          },
+          {
+            "label": "Informatie over de rapportage",
+            "type": "PAGE_ABSTRACT (Een link naar formpagina)",
+            "pageId": "{http://www.nltaxonomie.nl/nt17/kvk/20221214/ontology/kvk-portal-abstracts}DocumentInformationPageTitle"
+          }
+        ]
+      },
+      {
+        "label": "Bestuursverslag (Geen Childs (gewoon lijst van inputs)",
+        "type": "PAGE_ABSTRACT (Een link naar formpagina)",
+        "pageId": "{http://www.nltaxonomie.nl/nt17/kvk/20221214/ontology/kvk-portal-abstracts}ManagementReportPageTitle"
+      },
+
+      {
+        "label": "Jaarrekening",
+        "type": "NAVIGATION_ABSTRACT (Uitklapbaar maar niet een link)",
+        "expanded": true,
+        "children": [
+          {
+            "label": "Geconsolideerde jaarrekening",
+            "expanded": false,
+            "children": [
+              {
+                "label": "Geconsolideerde balans",
+                "type": "PAGE_ABSTRACT (Een link naar formpagina)",
+                "pageId": "{http://www.nltaxonomie.nl/nt17/kvk/20221214/ontology/kvk-portal-abstracts}ConsolidatedBalanceSheetPageTitle"
+              },
+              {
+                "label": "Geconsolideerde winst-en-verliesrekening",
+                "type": "PAGE_ABSTRACT (Een link naar formpagina)",
+                "pageId": "{http://www.nltaxonomie.nl/nt17/kvk/20221214/ontology/kvk-portal-abstracts}ConsolidatedIncomeStatementPageTitle"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  "formSections": [
+    {
+      "name": "Informatie over de rechtspersoon",
+      "id": "{http://www.nltaxonomie.nl/nt17/kvk/20221214/ontology/kvk-portal-abstracts}EntityInformationPageTitle",
+      "type": "FORMSECTION",
+
+      "controls": [
+        {
+          "name": "firstName",
+          "label": "First name",
+          "value": "Bert",
+          "type": "text",
+          "validators": {
+            "required": true,
+            "minLength": 10
+          }
+        },
+        {
+          "name": "lastName",
+          "label": "Last name",
+          "value": "Heerder",
+          "type": "text",
+          "validators": {}
+        },
+        {
+          "name": "age",
+          "label": "Age",
+          "value": "",
+          "type": "number",
+          "validators": {}
+        },
+        {
+          "name": "comments",
+          "label": "Comments",
+          "value": "",
+          "type": "textarea",
+          "validators": {}
+        },
+        {
+          "name": "agreeTerms",
+          "label": "Agree with the terms",
+          "value": "true",
+          "type": "checkbox",
+          "validators": {}
+        },
+        {
+          "name": "size",
+          "label": "Age range",
+          "value": "0",
+          "type": "range",
+          "options": {
+            "min": "0",
+            "max": "100",
+            "step": "1"
+          },
+          "validators": {}
+        },
+
+        {
+          "name": "birthdate",
+          "label": "Geboortedatum",
+          "value": "",
+          "type": "date",
+          "options": {},
+          "validators": {}
+        },
+
+        {
+          "name": "gender",
+          "label": "Geslacht",
+          "value": "vrouw",
+          "type": "radio",
+          "radioButtons": [
+            {
+              "value": "man",
+              "label": "Man"
+            },
+            {
+              "value": "woman",
+              "label": "Vrouw"
+            },
+            {
+              "value": "other",
+              "label": "Anders"
+            }
+          ],
+
+          "options": {},
+          "validators": {}
+        }
+      ]
+    }
+  ]
+}

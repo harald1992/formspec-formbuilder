@@ -1,0 +1,87 @@
+{
+  "controls": [
+    {
+      "name": "firstName",
+      "label": "First name",
+      "value": "Bert",
+      "type": "text",
+      "validators": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "name": "lastName",
+      "label": "Last name",
+      "value": "Heerder",
+      "type": "text",
+      "validators": {}
+    },
+    {
+      "name": "age",
+      "label": "Age",
+      "value": "",
+      "type": "number",
+      "validators": {}
+    },
+    {
+      "name": "comments",
+      "label": "Comments",
+      "value": "",
+      "type": "textarea",
+      "validators": {}
+    },
+    {
+      "name": "agreeTerms",
+      "label": "Agree with the terms",
+      "value": "true",
+      "type": "checkbox",
+      "validators": {}
+    },
+    {
+      "name": "size",
+      "label": "Age range",
+      "value": "0",
+      "type": "range",
+      "options": {
+        "min": "0",
+        "max": "100",
+        "step": "1"
+      },
+      "validators": {}
+    },
+
+    {
+      "name": "birthdate",
+      "label": "Geboortedatum",
+      "value": "",
+      "type": "date",
+      "options": {},
+      "validators": {}
+    },
+
+    {
+      "name": "gender",
+      "label": "Geslacht",
+      "value": "vrouw",
+      "type": "radio",
+      "radioButtons": [
+        {
+          "value": "man",
+          "label": "Man"
+        },
+        {
+          "value": "woman",
+          "label": "Vrouw"
+        },
+        {
+          "value": "other",
+          "label": "Anders"
+        }
+      ],
+
+      "options": {},
+      "validators": {}
+    }
+  ]
+}
