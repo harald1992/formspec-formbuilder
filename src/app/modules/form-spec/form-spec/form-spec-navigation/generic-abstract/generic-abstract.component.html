@@ -1,0 +1,11 @@
+<div class="margin-left-4">
+  <ng-container *ngIf="item && item.type === 'NAVIGATION_ABSTRACT'">
+    <app-navigation-abstract
+      [item]="navigationAbstract"
+    ></app-navigation-abstract>
+  </ng-container>
+
+  <ng-container *ngIf="item && item.type === 'PAGE_ABSTRACT'">
+    <app-page-abstract [item]="pageAbstract"></app-page-abstract>
+  </ng-container>
+</div>

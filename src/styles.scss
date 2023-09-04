@@ -1,1 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --main-bg-color: black;
+  --font-color: white;
+  --secondary-bg-color: grey;
+}
+
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+
+$spacing: 4;
+
+@for $i from 0 through 12 {
+  @each $prop in (margin, padding) {
+    .#{$prop}-#{$spacing * $i} {
+      #{$prop}: #{$spacing * $i}px;
+    }
+
+    @each $side in (top, right, bottom, left) {
+      .#{$prop}-#{$side}-#{$spacing * $i} {
+        #{$prop}-#{$side}: #{$spacing * $i}px;
+      }
+    }
+  }
+}
+
+@for $i from 0 through 12 {
+  @each $prop in (margin, padding) {
+    .#{$prop}-#{$spacing * $i}-important {
+      #{$prop}: #{$spacing * $i}px !important;
+    }
+
+    @each $side in (top, right, bottom, left) {
+      .#{$prop}-#{$side}-#{$spacing * $i}-important {
+        #{$prop}-#{$side}: #{$spacing * $i}px !important;
+      }
+    }
+  }
+}

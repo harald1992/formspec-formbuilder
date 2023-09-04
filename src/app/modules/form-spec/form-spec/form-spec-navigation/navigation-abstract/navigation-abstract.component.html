@@ -1,0 +1,13 @@
+<button (click)="toggleExpanded()">
+  {{ item.label }}
+  <span class="margin-left-4" [innerHTML]="item.expanded ? '&darr;' : '&uarr;'">
+  </span>
+</button>
+
+<ng-container *ngIf="item.expanded">
+  <div class="box">
+    <ng-container *ngFor="let navChild of item.children">
+      <app-generic-abstract [item]="navChild"></app-generic-abstract>
+    </ng-container>
+  </div>
+</ng-container>

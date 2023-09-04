@@ -1,0 +1,12 @@
+a {
+  padding: 4px 8px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  text-align: left;
+
+  &:hover {
+    color: black;
+    outline: 1px solid black;
+  }
+}
