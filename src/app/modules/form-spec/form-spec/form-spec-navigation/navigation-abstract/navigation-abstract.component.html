@@ -1,5 +1,5 @@
 <button (click)="toggleExpanded()">
-  {{ item.label }}
+  {{ item.label | translation }}
   <span class="margin-left-4" [innerHTML]="item.expanded ? '&darr;' : '&uarr;'">
   </span>
 </button>

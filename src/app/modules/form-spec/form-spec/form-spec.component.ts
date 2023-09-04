@@ -18,8 +18,6 @@ export class FormSpecComponent {
 
   ngOnInit() {
     this.formSpecService.getFormSpec().subscribe((data: FormSpecData) => {
-      console.log(data);
-
       this.formSpec = data.formSpec;
     });
   }

@@ -4,6 +4,8 @@ a {
   display: flex;
   align-items: center;
   text-align: left;
+  cursor: pointer;
+  color: darkblue;
 
   &:hover {
     color: black;
