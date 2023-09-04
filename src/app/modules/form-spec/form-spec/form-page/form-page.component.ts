@@ -28,7 +28,6 @@ export class FormPageComponent {
       this.pageId = pageId;
 
       this.formSpecService.getFormSpec().subscribe((data: FormSpecData) => {
-        console.log(data);
         const formSection = data.formSpec.formSections.find(
           (section: FormSection) => section.id === pageId
         );

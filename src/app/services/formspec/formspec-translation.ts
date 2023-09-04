@@ -1,4 +1,4 @@
-export interface Translation {
+export interface TranslationData {
   resources: Resources;
 }
 
@@ -8,4 +8,5 @@ export interface Resources {
 
 export interface Translation {
   nl: { [key: string]: string };
+  en: { [key: string]: string };
 }

@@ -1,22 +1,59 @@
 import { Injectable } from '@angular/core';
-import { Translation } from '../formspec/formspec-translation';
+import { Translation, TranslationData } from '../formspec/formspec-translation';
 import { HttpClient } from '@angular/common/http';
+
+enum LanguageName {
+  DUTCH,
+  ENGLISH,
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class TranslationService {
-  #translationDutch: Translation | undefined = undefined;
+  #translationDutch: TranslationData | undefined = undefined;
+  #translationEnglish: TranslationData | undefined = undefined;
+  currentLanguage = LanguageName.ENGLISH;
 
   constructor(private http: HttpClient) {}
 
-  get translationDutch() {
-    return this.#translationDutch;
+  get translation(): { [key: string]: string } | undefined {
+    switch (this.currentLanguage) {
+      case LanguageName.DUTCH:
+        return this.#translationDutch?.resources?.translation.nl || undefined;
+        break;
+
+      case LanguageName.ENGLISH:
+        return this.#translationEnglish?.resources?.translation.en || undefined;
+        break;
+
+      default:
+        return this.#translationDutch?.resources?.translation.nl || undefined;
+        break;
+    }
   }
 
   getTranslations() {
     this.http
-      .get<Translation>('/assets/dutch-kvk.json')
-      .subscribe((data: Translation) => (this.#translationDutch = data));
+      .get<TranslationData>('/assets/dutch-kvk.json')
+      .subscribe((data: TranslationData) => (this.#translationDutch = data));
+
+    this.http
+      .get<TranslationData>('/assets/english-kvk.json')
+      .subscribe((data: TranslationData) => (this.#translationEnglish = data));
+
+    this.http
+      .get<TranslationData>('/assets/english-kvk.json')
+      .subscribe((data: TranslationData) => console.log(data));
+
+    // this.currentLanguage = LanguageName.DUTCH;
+  }
+
+  switchToDutch() {
+    this.currentLanguage = LanguageName.DUTCH;
+  }
+
+  switchToEnglish() {
+    this.currentLanguage = LanguageName.ENGLISH;
   }
 }
