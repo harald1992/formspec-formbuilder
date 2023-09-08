@@ -24,4 +24,8 @@ export class FormSpecComponent {
   testFormSpecJSONPath() {
     this.formSpecService.testFormSpecJSONPath();
   }
+
+  getFormValues() {
+    this.formSpecService.getFormValues();
+  }
 }

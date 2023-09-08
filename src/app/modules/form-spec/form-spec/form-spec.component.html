@@ -1,7 +1,6 @@
-<h1>FormSpec</h1>
 <a routerLink="/">Go To Home</a>
 
-<button (click)="testFormSpecJSONPath()">Test Json Path</button>
+<h1>FormSpec</h1>
 
 <div class="divide-horizontal-in-two">
   <div class="navigation">
@@ -13,5 +12,8 @@
     <app-form-page></app-form-page>
   </div>
 </div>
+<button (click)="testFormSpecJSONPath()">Test Json Path</button>
+
+<button (click)="getFormValues()">Get full form value</button>
 
 <ng-template #loading>Loading</ng-template>

@@ -1,6 +1,7 @@
 <div class="input-wrapper" [formGroup]="form">
   <label class="input-wrapper__label" [for]="id"
-    >{{ formRow.label.value | translation }}:</label
+    >{{ formRow.label.value | translation }}:
+    <span *ngIf="formRow.inputField.mandatory">*</span></label
   >
 
   <div [ngSwitch]="formRow.inputField.inputType">
@@ -21,8 +22,21 @@
     /></ng-container>
 
     <ng-container *ngSwitchCase="'CHOICE'">
-      This can be everything it seems
-      <div
+      <span *ngIf="formRow.inputField.choices!.length >= 100"
+        >Warning: {{ formRow.inputField.choices?.length }} input fields</span
+      >
+      <!-- Todo: big memory usage with massive choice, for example SBI list, 1 second -->
+      <select [formControlName]="id" [id]="id">
+        <option value="">--Selecteer een optie--</option>
+        <ng-container *ngFor="let choice of formRow.inputField.choices">
+          <option>
+            {{ choice.label | translation }}
+          </option>
+        </ng-container>
+      </select>
+
+      <!-- // TODO: Radio Button when the choices are only max 3 -->
+      <!-- <div
         class="d-flex flex-column"
         *ngFor="
           let choice of $any(formRow.inputField).dimensions;
@@ -36,7 +50,7 @@
           [id]="choice.localPart"
           [formControlName]="choice.localPart"
         />
-      </div>
+      </div> -->
     </ng-container>
 
     <ng-container *ngSwitchCase="'TABLE'">
@@ -54,6 +68,15 @@
 
     <ng-container *ngSwitchDefault> Inputveld niet gevonden </ng-container>
   </div>
+  <span *ngIf="form.get(id)?.errors"
+    >Errors: {{ form.get(id)?.errors | json }}</span
+  >
 
-  <!-- // default  supports: *ngSwitchCase="'text' || 'number' || 'textarea' || 'range' ||    'date'"> -->
+  <div
+    class="show-hover"
+    *ngIf="formRow.inputField.facets || formRow.inputField.mandatory"
+  >
+    validations: {{ formRow.inputField.facets | json }} mandatory =
+    {{ formRow.inputField.mandatory }}
+  </div>
 </div>

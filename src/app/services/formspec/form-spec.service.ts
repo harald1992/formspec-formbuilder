@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, share, tap } from 'rxjs';
-import { FormSpec, FormSpecData } from './form-spec.interface';
-import { Translation, TranslationData } from './formspec-translation.interface';
+import { Observable } from 'rxjs';
+import { FormSpecData } from './form-spec.interface';
+import { TranslationData } from './formspec-translation.interface';
 import { JSONPath } from 'jsonpath-plus';
 
 export interface FormRow {
@@ -21,13 +21,38 @@ export interface FormCell {
     | 'DATE'
     | 'INTEGER'
     | 'FLOAT'
-    | 'CHOICE'
+    | 'CHOICE' // ik denk dropdown button
     | 'TABLE'
     | 'PERCENTAGE'
     | 'GYEAR';
   aspects: Aspects;
   mandatory: boolean;
-  factId: number;
+  facets?: {
+    // de veldvalidaties
+    maxLength?: number;
+    minLength?: number;
+    enumeration?: string[]; // bij choices dus dropdown buttons
+    length?: number; // bijv 8 bij registratienummer KVK
+    pattern?: string[]; // regex array, bijv [^@]+@[^@]+ of "[0-9]{1,5}"
+    //   "pattern": ["([1-9][0-9]{7})|([0-9][1-9][0-9]{6})"]
+
+    fractionDigits?: number; // bij float
+    totalDigits?: number; // bij float
+    minInclusive?: string; // met bijv 0,
+  };
+  choices?: { value: string; label: string }[]; // indien choice dus radio button
+
+  dimensions: []; // geen idee wat dit is
+
+  /* business rules: */
+  factID: number; // voor andere alldependentFacts om hieraan te refereren denk ik
+  allDependentFacts: number[]; // lijst met alle factID's die betrekking hebben hierop
+  formulas?: any; // dit bepaalt validaties in betrekking met andere velden denk ik
+}
+
+interface Formula {
+  assertions: [];
+  assignment: unknown;
 }
 
 interface Aspects {
@@ -39,6 +64,7 @@ interface Aspects {
   providedIn: 'root',
 })
 export class FormspecService {
+  totalFormValues: any;
   constructor(private http: HttpClient) {}
 
   getFormSpec(): Observable<FormSpecData> {
@@ -49,17 +75,20 @@ export class FormspecService {
   testFormSpecJSONPath() {
     this.getFormSpec().subscribe((data: FormSpecData) => {
       // let jsonpath = '$.formSpec.formSections..rows'; // filters
-      let jsonpath = '$.formSpec.formSections..inputType';
+      let jsonpath = '$.formSpec.formSections..facets';
       const result = JSONPath({ path: jsonpath, json: data });
-      console.log(result);
+      // console.log(result);
+      let allOptions: string[] = [];
 
-      // const inputFields = JSONPath({
-      //   path: '$..cols[?(@.inputType=="TEXT")]',
-      //   json: result,
-      // });
-      // console.log(inputFields);
+      result.forEach((item: any) => {
+        for (const key in item) {
+          if (!allOptions.includes(key)) {
+            allOptions.push(key);
+          }
+        }
+      });
 
-      // return inputFields;
+      console.log(allOptions);
     });
   }
 
@@ -93,22 +122,30 @@ export class FormspecService {
   // the english formspec has different lable id's than the dutch one, so whenever we want to change language, there is a new formspec that needs to be used in the application.
 
   // this translate function is too slow for normal browser, think that's why it doesn't work on big formspec, only on smaller json files
-  translateFormSpec(formSpec: FormSpecData): FormSpecData {
-    this.http
-      .get<TranslationData>('/assets/dutch-kvk.json')
-      .subscribe((data: TranslationData) => {
-        let keyValueTranslation = data.resources.translation.nl;
-        let formSpecString = JSON.stringify(formSpec);
+  // translateFormSpec(formSpec: FormSpecData): FormSpecData {
+  //   this.http
+  //     .get<TranslationData>('/assets/dutch-kvk.json')
+  //     .subscribe((data: TranslationData) => {
+  //       let keyValueTranslation = data.resources.translation.nl;
+  //       let formSpecString = JSON.stringify(formSpec);
 
-        for (let key in keyValueTranslation) {
-          formSpecString = formSpecString.replaceAll(
-            key,
-            keyValueTranslation[key]
-          );
-        }
-        formSpec = JSON.parse(formSpecString);
-      });
+  //       for (let key in keyValueTranslation) {
+  //         formSpecString = formSpecString.replaceAll(
+  //           key,
+  //           keyValueTranslation[key]
+  //         );
+  //       }
+  //       formSpec = JSON.parse(formSpecString);
+  //     });
 
-    return formSpec;
+  //   return formSpec;
+  // }
+
+  saveForm(formValues: any) {
+    this.totalFormValues = formValues;
+  }
+
+  getFormValues() {
+    console.log(this.totalFormValues);
   }
 }

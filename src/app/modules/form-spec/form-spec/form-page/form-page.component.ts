@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
+  FormControlOptions,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -65,10 +68,10 @@ export class FormPageComponent {
     this.myForm = this.fb.group({});
 
     for (const formRow of formRows) {
-      console.log(formRow);
+      // console.log(formRow);
       this.myForm.addControl(
         formRow.inputField.aspects.concept.localPart,
-        new FormControl('', Validators.required)
+        new FormControl('', this.getValidators(formRow.inputField))
       );
 
       // this.myForm.addControl(
@@ -79,7 +82,29 @@ export class FormPageComponent {
     }
   }
 
+  getValidators(formField: FormCell): any {
+    let validators: unknown[] = [];
+
+    if (formField.mandatory) {
+      // validators.push(Validators.required);
+    } else if (formField.facets?.minLength) {
+      // console.log('minlength');
+
+      validators.push(Validators.minLength(formField.facets?.minLength));
+    } else if (formField.facets?.maxLength) {
+      validators.push(Validators.maxLength(formField.facets?.maxLength));
+    } else if (formField.facets?.length) {
+      validators.push(Validators.minLength(formField.facets?.length));
+      validators.push(Validators.maxLength(formField.facets?.length));
+    }
+
+    console.log(validators);
+
+    return validators;
+  }
+
   onSubmit() {
-    console.log('submit');
+    // console.log('submit');
+    this.formSpecService.saveForm(this.myForm.value);
   }
 }

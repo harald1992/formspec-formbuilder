@@ -5,6 +5,16 @@
   gap: 4px;
 
   &__label {
-    width: 100px;
+    width: 200px;
   }
+
+  &:hover {
+    .show-hover {
+      display: block;
+    }
+  }
+}
+
+.show-hover {
+  display: none;
 }
