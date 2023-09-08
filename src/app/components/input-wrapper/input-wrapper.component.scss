@@ -1,0 +1,10 @@
+.input-wrapper {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  &__label {
+    width: 100px;
+  }
+}

@@ -1,0 +1,59 @@
+<div class="input-wrapper" [formGroup]="form">
+  <label class="input-wrapper__label" [for]="id"
+    >{{ formRow.label.value | translation }}:</label
+  >
+
+  <div [ngSwitch]="formRow.inputField.inputType">
+    <ng-container *ngSwitchCase="'TEXT'">
+      <input type="text" [id]="id" [formControlName]="id"
+    /></ng-container>
+
+    <ng-container *ngSwitchCase="'DATE'">
+      <input type="date" [id]="id" [formControlName]="id"
+    /></ng-container>
+
+    <ng-container *ngSwitchCase="'INTEGER'">
+      <input type="number" [id]="id" [formControlName]="id"
+    /></ng-container>
+
+    <ng-container *ngSwitchCase="'FLOAT'">
+      <input type="number" [id]="id" [formControlName]="id"
+    /></ng-container>
+
+    <ng-container *ngSwitchCase="'CHOICE'">
+      This can be everything it seems
+      <div
+        class="d-flex flex-column"
+        *ngFor="
+          let choice of $any(formRow.inputField).dimensions;
+          let i = index
+        "
+      >
+        <label [for]="choice.localPart">{{ choice.localPart }}</label>
+
+        <input
+          type="radio"
+          [id]="choice.localPart"
+          [formControlName]="choice.localPart"
+        />
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'TABLE'">
+      Create beautiful table
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'PERCENTAGE'">
+      <input type="number" [id]="id" [formControlName]="id"
+    /></ng-container>
+
+    <ng-container *ngSwitchCase="'GYEAR'">
+      is gyear a date?
+      <input type="date" [id]="id" [formControlName]="id"
+    /></ng-container>
+
+    <ng-container *ngSwitchDefault> Inputveld niet gevonden </ng-container>
+  </div>
+
+  <!-- // default  supports: *ngSwitchCase="'text' || 'number' || 'textarea' || 'range' ||    'date'"> -->
+</div>

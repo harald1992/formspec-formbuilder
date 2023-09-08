@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
 import {
   FormSpec,
   FormSpecData,
@@ -20,5 +19,9 @@ export class FormSpecComponent {
     this.formSpecService.getFormSpec().subscribe((data: FormSpecData) => {
       this.formSpec = data.formSpec;
     });
+  }
+
+  testFormSpecJSONPath() {
+    this.formSpecService.testFormSpecJSONPath();
   }
 }

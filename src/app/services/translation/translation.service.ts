@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Translation, TranslationData } from '../formspec/formspec-translation';
+import {
+  Translation,
+  TranslationData,
+} from '../formspec/formspec-translation.interface';
 import { HttpClient } from '@angular/common/http';
 
 enum LanguageName {
@@ -13,7 +16,7 @@ enum LanguageName {
 export class TranslationService {
   #translationDutch: TranslationData | undefined = undefined;
   #translationEnglish: TranslationData | undefined = undefined;
-  currentLanguage = LanguageName.ENGLISH;
+  currentLanguage = LanguageName.DUTCH;
 
   constructor(private http: HttpClient) {}
 
@@ -41,12 +44,6 @@ export class TranslationService {
     this.http
       .get<TranslationData>('/assets/english-kvk.json')
       .subscribe((data: TranslationData) => (this.#translationEnglish = data));
-
-    this.http
-      .get<TranslationData>('/assets/english-kvk.json')
-      .subscribe((data: TranslationData) => console.log(data));
-
-    // this.currentLanguage = LanguageName.DUTCH;
   }
 
   switchToDutch() {

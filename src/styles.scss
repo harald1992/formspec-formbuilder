@@ -49,3 +49,8 @@ $spacing: 4;
     }
   }
 }
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}

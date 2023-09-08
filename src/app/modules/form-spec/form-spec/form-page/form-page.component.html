@@ -1,4 +1,12 @@
-<p>form-page works!</p>
 PageId = {{ pageId }}
 
-formSection = {{ formSection | json }}
+<form class="flex-column" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <div class="field-container" *ngFor="let formRow of formRows">
+    <app-input-wrapper [formRow]="formRow" [form]="myForm"></app-input-wrapper>
+  </div>
+
+  <hr />
+  <button [disabled]="!myForm.valid && myForm.touched" type="submit">
+    Submit
+  </button>
+</form>
