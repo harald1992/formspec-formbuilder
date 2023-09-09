@@ -86,19 +86,24 @@ export class FormPageComponent {
     let validators: unknown[] = [];
 
     if (formField.mandatory) {
-      // validators.push(Validators.required);
-    } else if (formField.facets?.minLength) {
-      // console.log('minlength');
+      validators.push(Validators.required);
+    }
 
+    if (formField.facets?.minLength) {
       validators.push(Validators.minLength(formField.facets?.minLength));
-    } else if (formField.facets?.maxLength) {
+    }
+    if (formField.facets?.maxLength) {
       validators.push(Validators.maxLength(formField.facets?.maxLength));
-    } else if (formField.facets?.length) {
+    }
+    if (formField.facets?.length) {
       validators.push(Validators.minLength(formField.facets?.length));
       validators.push(Validators.maxLength(formField.facets?.length));
     }
-
-    console.log(validators);
+    if (formField.facets?.pattern) {
+      formField.facets?.pattern.forEach((regex: string) => {
+        validators.push(Validators.pattern(regex));
+      });
+    }
 
     return validators;
   }
