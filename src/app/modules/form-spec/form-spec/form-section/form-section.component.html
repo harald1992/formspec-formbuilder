@@ -1,0 +1,34 @@
+<h2>{{ formSectionControl.name || "" | translation }}</h2>
+<!-- {{ formSectionControl | json }} -->
+
+<div
+  class="d-flex flex-column"
+  *ngFor="let control of formSectionControl.controls"
+>
+  <div class="d-flex flex-row" *ngFor="let row of control.table.rows">
+    <div
+      class="table-cell"
+      [ngStyle]="{ width: cellWidth }"
+      *ngFor="let col of row.cols"
+    >
+      <!-- <div *ngIf="col.cellType === CellTypeEnum.FIXED_HEADER">{{col.value | translation}}</div>
+    </div> -->
+      <ng-container *ngIf="col.cellType === CellTypeEnum.FIXED_HEADER">
+        {{ $any(col).value || "" | translation }}
+      </ng-container>
+
+      <ng-container *ngIf="col.cellType === CellTypeEnum.INPUT">
+        <app-generic-input
+          [form]="form"
+          [formCell]="$any(col)"
+        ></app-generic-input>
+      </ng-container>
+    </div>
+    <!-- <ng-container *ngFor="let control of control.table.rows"></ng-container> -->
+  </div>
+
+  <hr />
+  <!-- <div class="field-container" *ngFor="let formRow of formRows">
+  <app-input-wrapper [formRow]="formRow" [form]="form"></app-input-wrapper>
+</div> -->
+</div>

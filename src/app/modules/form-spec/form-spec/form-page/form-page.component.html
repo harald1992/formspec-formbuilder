@@ -1,9 +1,13 @@
 <!-- PageId = {{ pageId }} -->
 
-<form class="flex-column" [formGroup]="myForm" (ngSubmit)="onSubmit()">
-  <div class="field-container" *ngFor="let formRow of formRows">
-    <app-input-wrapper [formRow]="formRow" [form]="myForm"></app-input-wrapper>
-  </div>
+<form class="d-flex flex-column" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <h1>{{ mainFormSection?.name || "" | translation }}</h1>
+  <ng-container *ngFor="let control of mainFormSection?.controls">
+    <app-form-section
+      [formSectionControl]="control"
+      [form]="myForm"
+    ></app-form-section>
+  </ng-container>
 
   <hr />
   <button [disabled]="!myForm.valid && myForm.touched" type="submit">
@@ -12,3 +16,10 @@
 </form>
 
 {{ myForm.value | json }}
+
+<button (click)="showAllInputFields()">Find All InputFields</button>
+<ng-container *ngIf="showInputFields">
+  <div class="field-container" *ngFor="let formRow of formRows">
+    <app-input-wrapper [formRow]="formRow" [form]="myForm"></app-input-wrapper>
+  </div>
+</ng-container>

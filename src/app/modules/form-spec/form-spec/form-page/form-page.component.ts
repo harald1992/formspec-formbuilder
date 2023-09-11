@@ -12,11 +12,11 @@ import { ActivatedRoute } from '@angular/router';
 import { JSONPath } from 'jsonpath-plus';
 import { filter } from 'rxjs/operators';
 import {
+  FormCell,
   FormSection,
   FormSpecData,
 } from 'src/app/services/formspec/form-spec.interface';
 import {
-  FormCell,
   FormRow,
   FormspecService,
 } from 'src/app/services/formspec/form-spec.service';
@@ -28,10 +28,11 @@ import {
 })
 export class FormPageComponent {
   pageId: string = '';
-  formSection!: FormSection;
-  // inputFields: FormCell[] = [];
-  formRows: FormRow[] = [];
+  mainFormSection: FormSection | undefined;
   myForm: FormGroup = this.fb.group({});
+
+  formRows: FormRow[] = []; // old
+  showInputFields = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,11 +56,11 @@ export class FormPageComponent {
         const formSection = data.formSpec.formSections.find(
           (section: FormSection) => section.id === pageId
         );
-        this.formSection = formSection as FormSection;
+        this.mainFormSection = formSection as FormSection;
 
         const formRows = this.formSpecService.filterInputFields(formSection);
         this.setupForm(formRows);
-        this.formRows = formRows;
+        this.formRows = formRows; // old
       });
     });
   }
@@ -68,7 +69,6 @@ export class FormPageComponent {
     this.myForm = this.fb.group({});
 
     for (const formRow of formRows) {
-      // console.log(formRow);
       this.myForm.addControl(
         formRow.inputField.aspects.concept.localPart,
         new FormControl('', this.getValidators(formRow.inputField))
@@ -111,5 +111,9 @@ export class FormPageComponent {
   onSubmit() {
     // console.log('submit');
     this.formSpecService.saveForm(this.myForm.value);
+  }
+
+  showAllInputFields() {
+    this.showInputFields = !this.showInputFields;
   }
 }

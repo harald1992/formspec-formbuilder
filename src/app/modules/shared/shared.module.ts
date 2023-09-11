@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslationPipe } from 'src/app/pipes/translation.pipe';
 import { InputWrapperComponent } from 'src/app/components/input-wrapper/input-wrapper.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GenericInputComponent } from 'src/app/components/generic-input/generic-input.component';
 
 const components = [InputWrapperComponent];
 const modules = [CommonModule, HttpClientModule, ReactiveFormsModule];

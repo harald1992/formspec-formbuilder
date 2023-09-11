@@ -57,8 +57,27 @@ export interface FormSection {
   name: string | null; // the header
   id: string; // links to the pageId from the Page_Abstract
   type: 'FORMSECTION';
-  controls: (FormSection | FormInput)[]; // can have multiple levels
+  controls: FormSectionControl[]; // can have multiple levels
   sectionText?: string;
+}
+
+export interface ControlControl {
+  type: CellTypeEnum;
+  inputType: 'TABLE';
+  table: Table;
+}
+
+export interface Table {
+  id: string;
+  // rows: TableRow[];
+  // tableType?: TableType;
+}
+
+export interface FormSectionControl {
+  name: null | string;
+  id: string;
+  type: FormSectionType;
+  controls: TableControl[];
 }
 
 /* seems to only be FORMSECTION */
@@ -73,7 +92,7 @@ export enum FormSectionType {
 //   controls: ControlControl[];
 // }
 
-export interface FormInput {
+export interface TableControl {
   type: CellTypeEnum;
   inputType: 'TABLE';
   table: Table;
@@ -85,63 +104,93 @@ export interface FormInput {
 
 export interface Table {
   id: string;
-  // rows: TableRow[];
-  // tableType?: TableType;
+  rows: TableRow[];
+  tableType?: TableType;
+}
+
+export enum TableType {
+  TypedDimensions = 'TYPED-DIMENSIONS',
+}
+
+export interface TableRow {
+  id: string;
+  cols?: (PurpleCol | FormCell)[];
+  // typedDimension?: TypedDimension;
+  // columnOffset?: number;
+  // rows?: PurpleRow [];
+}
+
+// export interface PurpleRow {
+//   // cols: PurpleColumn[];
+// }
+
+/* this can be different cellTypes, so padding-header, fixed,header and repeat-header and INPUT.*/
+export interface PurpleCol {
+  cellType: CellTypeEnum;
+  value?: string; // if fixed header
+}
+
+export enum ColInputType {
+  CHOICE = 'CHOICE',
+  DATE = 'DATE',
+  FLOAT = 'FLOAT',
+  GYEAR = 'GYEAR',
+  INTEGER = 'INTEGER',
+  PERCENTAGE = 'PERCENTAGE',
+  TEXT = 'TEXT',
 }
 
 export enum CellTypeEnum {
-  AspectInputHeader = 'ASPECT-INPUT-HEADER',
-  FixedHeader = 'FIXED-HEADER',
-  Input = 'INPUT',
-  PaddingCell = 'PADDING-CELL',
-  PaddingHeader = 'PADDING-HEADER',
-  RepeatHeader = 'REPEAT-HEADER',
+  ASPECT_INPUT_HEADER = 'ASPECT-INPUT-HEADER',
+  FIXED_HEADER = 'FIXED-HEADER',
+  INPUT = 'INPUT',
+  PADDING_CELL = 'PADDING-CELL',
+  PADDING_HEADER = 'PADDING-HEADER',
+  REPEAT_HEADER = 'REPEAT-HEADER',
 }
 
-/* */
-// export interface Control {
-//   name: string;
-//   label: string;
-//   value: string;
-//   type: string;
-//   validators: Validators;
-//   options?: Options;
-//   radioButtons?: RadioButton[];
-// }
+export interface FormCell {
+  cellType: 'INPUT';
+  inputType:
+    | 'TEXT'
+    | 'DATE'
+    | 'INTEGER'
+    | 'FLOAT'
+    | 'CHOICE' // ik denk dropdown button
+    | 'TABLE' // deze uitwerken, inputvelden in de table mogen niet nog een keer laten zien worden
+    | 'PERCENTAGE'
+    | 'GYEAR';
+  aspects: Aspects;
+  mandatory: boolean;
+  facets?: {
+    // de veldvalidaties
+    maxLength?: number;
+    minLength?: number;
+    enumeration?: string[]; // bij choices dus dropdown buttons
+    length?: number; // bijv 8 bij registratienummer KVK
+    pattern?: string[]; // regex array, bijv [^@]+@[^@]+ of "[0-9]{1,5}"
+    //   "pattern": ["([1-9][0-9]{7})|([0-9][1-9][0-9]{6})"]
 
-// export interface Options {
-//   min?: string;
-//   max?: string;
-//   step?: string;
-// }
+    fractionDigits?: number; // bij float
+    totalDigits?: number; // bij float
+    minInclusive?: string; // met bijv 0,
+  };
+  choices?: { value: string; label: string }[]; // indien choice dus radio button
 
-// export interface RadioButton {
-//   value: string;
-//   label: string;
-// }
+  dimensions: []; // geen idee wat dit is
 
-// export interface Validators {
-//   required?: boolean;
-//   minLength?: number;
-// }
+  /* business rules: */
+  factID: number; // voor andere alldependentFacts om hieraan te refereren denk ik
+  allDependentFacts: number[]; // lijst met alle factID's die betrekking hebben hierop
+  formulas?: any; // dit bepaalt validaties in betrekking met andere velden denk ik
+}
 
-// // export interface FormSpecNavigation {    // is same as navigation abstract
-// //   label: string;
-// //   type: 'NAVIGATION_ABSTRACT' | 'PAGE_ABSTRACT';
-// //   expanded: boolean;
-// //   children?: NavigationAbstract[] | PageAbstract[];
-// // }
+interface Formula {
+  assertions: [];
+  assignment: unknown;
+}
 
-// export interface PurpleChild {
-//   label: string;
-//   type?: string;
-//   pageId?: string;
-//   expanded?: boolean;
-//   children?: FluffyChild[];
-// }
-
-// export interface FluffyChild {
-//   label: string;
-//   type: string;
-//   pageId: string;
-// }
+interface Aspects {
+  period?: any;
+  concept: { localPart: string };
+}

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormSpecData } from './form-spec.interface';
+import { FormCell, FormSpecData } from './form-spec.interface';
 import { TranslationData } from './formspec-translation.interface';
 import { JSONPath } from 'jsonpath-plus';
 
@@ -12,52 +12,6 @@ export interface FormRow {
 
 export interface FormLabel {
   value: string;
-}
-
-export interface FormCell {
-  cellType: 'INPUT';
-  inputType:
-    | 'TEXT'
-    | 'DATE'
-    | 'INTEGER'
-    | 'FLOAT'
-    | 'CHOICE' // ik denk dropdown button
-    | 'TABLE'
-    | 'PERCENTAGE'
-    | 'GYEAR';
-  aspects: Aspects;
-  mandatory: boolean;
-  facets?: {
-    // de veldvalidaties
-    maxLength?: number;
-    minLength?: number;
-    enumeration?: string[]; // bij choices dus dropdown buttons
-    length?: number; // bijv 8 bij registratienummer KVK
-    pattern?: string[]; // regex array, bijv [^@]+@[^@]+ of "[0-9]{1,5}"
-    //   "pattern": ["([1-9][0-9]{7})|([0-9][1-9][0-9]{6})"]
-
-    fractionDigits?: number; // bij float
-    totalDigits?: number; // bij float
-    minInclusive?: string; // met bijv 0,
-  };
-  choices?: { value: string; label: string }[]; // indien choice dus radio button
-
-  dimensions: []; // geen idee wat dit is
-
-  /* business rules: */
-  factID: number; // voor andere alldependentFacts om hieraan te refereren denk ik
-  allDependentFacts: number[]; // lijst met alle factID's die betrekking hebben hierop
-  formulas?: any; // dit bepaalt validaties in betrekking met andere velden denk ik
-}
-
-interface Formula {
-  assertions: [];
-  assignment: unknown;
-}
-
-interface Aspects {
-  period?: any;
-  concept: { localPart: string };
 }
 
 @Injectable({
@@ -75,17 +29,23 @@ export class FormspecService {
   testFormSpecJSONPath() {
     this.getFormSpec().subscribe((data: FormSpecData) => {
       // let jsonpath = '$.formSpec.formSections..rows'; // filters
-      let jsonpath = '$.formSpec.formSections..facets';
+      let jsonpath = '$.formSpec..inputType';
       const result = JSONPath({ path: jsonpath, json: data });
       // console.log(result);
       let allOptions: string[] = [];
 
       result.forEach((item: any) => {
-        for (const key in item) {
-          if (!allOptions.includes(key)) {
-            allOptions.push(key);
-          }
+        //stringarray
+        if (!allOptions.includes(item)) {
+          allOptions.push(item);
         }
+
+        // parameter
+        // for (const key in item) {
+        //   if (!allOptions.includes(key)) {
+        //     allOptions.push(key);
+        //   }
+        // }
       });
 
       console.log(allOptions);

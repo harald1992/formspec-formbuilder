@@ -8,6 +8,8 @@ import { FormPageComponent } from './form-spec/form-page/form-page.component';
 import { NavigationAbstractComponent } from './form-spec/form-spec-navigation/navigation-abstract/navigation-abstract.component';
 import { PageAbstractComponent } from './form-spec/form-spec-navigation/page-abstract/page-abstract.component';
 import { FormSpecComponent } from './form-spec/form-spec.component';
+import { FormSectionComponent } from './form-spec/form-section/form-section.component';
+import { GenericInputComponent } from 'src/app/components/generic-input/generic-input.component';
 
 const routes: Routes = [{ path: '**', component: FormSpecComponent }];
 
@@ -19,6 +21,8 @@ const routes: Routes = [{ path: '**', component: FormSpecComponent }];
     PageAbstractComponent,
     FormPageComponent,
     GenericAbstractComponent,
+    FormSectionComponent,
+    GenericInputComponent,
   ],
   imports: [SharedModule, ReactiveFormsModule, RouterModule.forChild(routes)],
 })

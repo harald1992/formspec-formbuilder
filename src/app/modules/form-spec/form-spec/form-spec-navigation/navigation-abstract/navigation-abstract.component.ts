@@ -10,7 +10,7 @@ export class NavigationAbstractComponent {
   @Input() item!: NavigationAbstract;
 
   toggleExpanded() {
-    console.log(this.item.children);
+    // console.log(this.item.children);
 
     this.item.expanded = !this.item.expanded;
   }
