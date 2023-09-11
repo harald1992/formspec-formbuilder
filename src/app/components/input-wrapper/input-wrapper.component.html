@@ -26,11 +26,12 @@
         >Warning: {{ formRow.inputField.choices?.length }} input fields</span
       >
 
-      <ng-container
+      <div
+        class="d-flex flex-column"
         *ngIf="formRow.inputField.choices!.length <= 3; else dropdown"
       >
         <div
-          class="d-flex flex-column"
+          class="d-flex flex-row"
           *ngFor="let choice of formRow.inputField.choices; let i = index"
         >
           <label [for]="choice.label">{{ choice.label | translation }}</label>
@@ -42,7 +43,7 @@
             [formControlName]="id"
           />
         </div>
-      </ng-container>
+      </div>
 
       <ng-template #dropdown>
         <!-- Todo: big memory usage with massive choice, for example SBI list, 1 second -->

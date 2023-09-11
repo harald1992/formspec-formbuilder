@@ -1,0 +1,19 @@
+.input {
+  &:hover {
+    .show-hover {
+      z-index: 1;
+      display: block;
+    }
+  }
+}
+
+.show-hover {
+  display: none;
+  position: fixed;
+  width: 300px;
+  right: 0;
+  top: 0;
+  overflow-y: scroll;
+  max-height: 10rem;
+  border: 1px solid black;
+}

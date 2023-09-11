@@ -1,0 +1,76 @@
+<div [ngSwitch]="formCell.inputType" [formGroup]="form" class="input">
+  <ng-container *ngSwitchCase="'TEXT'">
+    <input type="text" [id]="id" [formControlName]="id"
+  /></ng-container>
+
+  <ng-container *ngSwitchCase="'DATE'">
+    <input type="date" [id]="id" [formControlName]="id"
+  /></ng-container>
+
+  <ng-container *ngSwitchCase="'INTEGER'">
+    <input type="number" [id]="id" [formControlName]="id"
+  /></ng-container>
+
+  <ng-container *ngSwitchCase="'FLOAT'">
+    <input type="number" [id]="id" [formControlName]="id"
+  /></ng-container>
+
+  <ng-container *ngSwitchCase="'CHOICE'">
+    <span *ngIf="formCell.choices!.length >= 100"
+      >Warning: {{ formCell.choices?.length }} input fields</span
+    >
+
+    <div
+      class="d-flex flex-column"
+      *ngIf="formCell.choices!.length <= 3; else dropdown"
+    >
+      <div
+        class="d-flex flex-row"
+        *ngFor="let choice of formCell.choices; let i = index"
+      >
+        <label [for]="choice.label">{{ choice.label | translation }}</label>
+
+        <input
+          type="radio"
+          [value]="choice.value"
+          [id]="choice.label"
+          [formControlName]="id"
+        />
+      </div>
+    </div>
+
+    <ng-template #dropdown>
+      <!-- Todo: big memory usage with massive choice, for example SBI list, 1 second -->
+      <select [formControlName]="id" [id]="id">
+        <option value="">--Selecteer een optie--</option>
+        <ng-container *ngFor="let choice of formCell.choices">
+          <option>
+            {{ choice.label | translation }}
+          </option>
+        </ng-container>
+      </select>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'TABLE'"> Create beautiful table </ng-container>
+
+  <ng-container *ngSwitchCase="'PERCENTAGE'">
+    <input type="number" [id]="id" [formControlName]="id"
+  /></ng-container>
+
+  <ng-container *ngSwitchCase="'GYEAR'">
+    is gyear a date?
+    <input type="date" [id]="id" [formControlName]="id"
+  /></ng-container>
+
+  <ng-container *ngSwitchDefault> Inputveld niet gevonden </ng-container>
+
+  <span *ngIf="form.get(id)?.errors">
+    Errors: {{ form.get(id)?.errors | json }}</span
+  >
+
+  <div class="show-hover" *ngIf="formCell.facets || formCell.mandatory">
+    validations: {{ formCell.facets | json }} mandatory =
+    {{ formCell.mandatory }}
+  </div>
+</div>
