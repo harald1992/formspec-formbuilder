@@ -2,24 +2,17 @@ import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
-  FormControlOptions,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { JSONPath } from 'jsonpath-plus';
-import { filter } from 'rxjs/operators';
 import {
   FormCell,
   FormSection,
   FormSpecData,
-} from 'src/app/services/formspec/form-spec.interface';
-import {
-  FormRow,
-  FormspecService,
-} from 'src/app/services/formspec/form-spec.service';
+} from 'src/interfaces/form-spec.interface';
+import { FormspecService } from 'src/app/services/formspec/form-spec.service';
+import { FormRow } from 'src/interfaces/custom-interfaces.interface';
 
 @Component({
   selector: 'app-form-page',
@@ -58,6 +51,8 @@ export class FormPageComponent {
         );
         this.mainFormSection = formSection as FormSection;
 
+        console.log(this.mainFormSection);
+
         const formRows = this.formSpecService.filterInputFields(formSection);
         this.setupForm(formRows);
         this.formRows = formRows; // old
@@ -73,12 +68,6 @@ export class FormPageComponent {
         formRow.inputField.aspects.concept.localPart,
         new FormControl('', this.getValidators(formRow.inputField))
       );
-
-      // this.myForm.addControl(
-      //   formRow.inputField.aspects.concept.localPart,
-      //   new FormControl<string | null>('', {})
-      //   // this.fb.control(control.value)
-      // );
     }
   }
 
@@ -109,7 +98,6 @@ export class FormPageComponent {
   }
 
   onSubmit() {
-    // console.log('submit');
     this.formSpecService.saveForm(this.myForm.value);
   }
 

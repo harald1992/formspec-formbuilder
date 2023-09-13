@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   Translation,
   TranslationData,
-} from '../formspec/formspec-translation.interface';
+} from '../../../interfaces/formspec-translation.interface';
 import { HttpClient } from '@angular/common/http';
 
 enum LanguageName {

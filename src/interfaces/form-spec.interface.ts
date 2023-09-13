@@ -3,39 +3,43 @@ export interface FormSpecData {
   draft: Draft;
 }
 
-export interface Draft {
-  id: string;
-  title: string;
-  report: Report;
-  entrypoint: string;
-  currentStartDate: Date;
-  currentEndDate: Date;
-  previousStartDate: Date;
-  previousEndDate: Date;
-  expirationDate: Date;
-  created: Date;
-  updated: Date;
-  duplicable: boolean;
-}
-
 export interface Report {
-  items: any[];
+  items: FilledItem[];
 }
 
-// export interface FormSpec {
-//   navigation: NavigationAbstract;
-//   formSections: FormSection[];
-// }
+interface FilledItem {
+  value: string; // fieldvalue
+  aspects: any; // met period, startDate etc
+  concept: { namespaceUri: string; localPart: string }; // the id
+  entityIdentifier: { scheme: string; value: string };
+  dimensions: [];
+}
 
 export interface FormSpec {
-  // formSpecVersion: Version;
-  // configuration: Configuration;
-  // metadata: Metadata;
-  // navigation: Navigation;  -> old, new is navigationAbstract
+  formSpecVersion: Version;
+  configuration: {
+    flattenedTables: boolean;
+    excludedFormulas: [];
+    tableElrs: [];
+  };
+  metadata: Metadata;
   navigation: NavigationAbstract; // new
   formSections: FormSection[];
   // namespaceUriPrefixMap: NamespaceURIPrefixMap[];
   // formulaContext: string;
+}
+
+interface Version {
+  major: number;
+  minor: number;
+  patch: number;
+}
+interface Metadata {
+  schemaVersion: Version;
+  coreEntrypoint: string; // url of taxonomy
+  ontologyEntrypoint: string; // url of taxonomy
+  generator: string; // name of the formspec generator
+  translations: { en: string; nl: string };
 }
 
 /*  Uitklapbaar  */
@@ -61,18 +65,6 @@ export interface FormSection {
   sectionText?: string;
 }
 
-export interface ControlControl {
-  type: CellTypeEnum;
-  inputType: 'TABLE';
-  table: Table;
-}
-
-export interface Table {
-  id: string;
-  // rows: TableRow[];
-  // tableType?: TableType;
-}
-
 export interface FormSectionControl {
   name: null | string;
   id: string;
@@ -85,47 +77,30 @@ export enum FormSectionType {
   Formsection = 'FORMSECTION',
 }
 
-// export interface FormSectionControl {
-//   name: null | string;
-//   id: string;
-//   type: FormSectionType;
-//   controls: ControlControl[];
-// }
-
 export interface TableControl {
-  type: CellTypeEnum;
+  // type: CellTypeEnum;
+  type: 'INPUT';
   inputType: 'TABLE';
   table: Table;
 }
 
-// export enum ControlInputType {
-//   Table = 'TABLE',
-// }
-
 export interface Table {
-  id: string;
+  id: string; // bijv urn:kvk:linkrole:document-information
   rows: TableRow[];
-  tableType?: TableType;
-}
-
-export enum TableType {
-  TypedDimensions = 'TYPED-DIMENSIONS',
+  type: 'INPUT';
+  tableType?: 'TYPED-DIMENSIONS'; // this might be a form that can add new fields when pressing plus button, for example ondertekening van de jaarrekening
 }
 
 export interface TableRow {
   id: string;
-  cols?: (PurpleCol | FormCell)[];
+  cols?: (HeaderOrEmptyCell | FormCell)[];
   // typedDimension?: TypedDimension;
   // columnOffset?: number;
   // rows?: PurpleRow [];
 }
 
-// export interface PurpleRow {
-//   // cols: PurpleColumn[];
-// }
-
-/* this can be different cellTypes, so padding-header, fixed,header and repeat-header and INPUT.*/
-export interface PurpleCol {
+/* this can be different cellTypes, so padding-header, fixed,header with a value and repeat-header and INPUT.*/
+export interface HeaderOrEmptyCell {
   cellType: CellTypeEnum;
   value?: string; // if fixed header
 }
@@ -157,7 +132,6 @@ export interface FormCell {
     | 'INTEGER'
     | 'FLOAT'
     | 'CHOICE' // ik denk dropdown button
-    | 'TABLE' // deze uitwerken, inputvelden in de table mogen niet nog een keer laten zien worden
     | 'PERCENTAGE'
     | 'GYEAR';
   aspects: Aspects;
@@ -193,4 +167,19 @@ interface Formula {
 interface Aspects {
   period?: any;
   concept: { localPart: string };
+}
+
+export interface Draft {
+  id: string;
+  title: string; // Titel/naam van de aangemaakte jaarrekening
+  report: Report;
+  entrypoint: string;
+  currentStartDate: Date;
+  currentEndDate: Date;
+  previousStartDate: Date;
+  previousEndDate: Date;
+  expirationDate: Date;
+  created: Date;
+  updated: Date;
+  duplicable: boolean;
 }

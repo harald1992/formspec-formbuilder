@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NavigationAbstract } from 'src/app/services/formspec/form-spec.interface';
+import { NavigationAbstract } from 'src/interfaces/form-spec.interface';
 
 @Component({
   selector: 'app-navigation-abstract',

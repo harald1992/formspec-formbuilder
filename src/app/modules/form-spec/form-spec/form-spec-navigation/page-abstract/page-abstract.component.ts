@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { PageAbstract } from 'src/app/services/formspec/form-spec.interface';
+import { PageAbstract } from 'src/interfaces/form-spec.interface';
 
 @Component({
   selector: 'app-page-abstract',

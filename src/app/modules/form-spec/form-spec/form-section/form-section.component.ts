@@ -3,11 +3,9 @@ import { FormGroup } from '@angular/forms';
 import {
   CellTypeEnum,
   FormSectionControl,
-} from 'src/app/services/formspec/form-spec.interface';
-import {
-  FormRow,
-  FormspecService,
-} from 'src/app/services/formspec/form-spec.service';
+} from 'src/interfaces/form-spec.interface';
+import { FormspecService } from 'src/app/services/formspec/form-spec.service';
+import { FormRow } from 'src/interfaces/custom-interfaces.interface';
 
 @Component({
   selector: 'app-form-section',
@@ -21,19 +19,9 @@ export class FormSectionComponent implements OnInit {
 
   CellTypeEnum: typeof CellTypeEnum = CellTypeEnum;
 
-  constructor(
-    private formSpecService: FormspecService,
-    private elRef: ElementRef
-  ) {}
+  constructor(private elRef: ElementRef) {}
 
-  get formRows(): FormRow[] {
-    const formRows = this.formSpecService.filterInputFields(
-      this.formSectionControl
-    );
-
-    return formRows;
-  }
-
+  // todo: do this on windowResize
   ngOnInit(): void {
     const amountOfColumns =
       this.formSectionControl.controls[0].table.rows[0]?.cols?.length || 0;

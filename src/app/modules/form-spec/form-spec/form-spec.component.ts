@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormSpec,
-  FormSpecData,
-} from 'src/app/services/formspec/form-spec.interface';
+import { FormSpec, FormSpecData } from 'src/interfaces/form-spec.interface';
 import { FormspecService } from 'src/app/services/formspec/form-spec.service';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   NavigationAbstract,
   PageAbstract,
-} from 'src/app/services/formspec/form-spec.interface';
+} from 'src/interfaces/form-spec.interface';
 
 @Component({
   selector: 'app-generic-abstract',

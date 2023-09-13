@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslationService } from '../services/translation/translation.service';
-import { Translation } from '../services/formspec/formspec-translation.interface';
+import { Translation } from '../../interfaces/formspec-translation.interface';
 
 @Pipe({
   name: 'translation',
