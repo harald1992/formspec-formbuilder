@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FormRow } from 'src/app/services/formspec/form-spec.service';
+import { FormRow } from 'src/interfaces/custom-interfaces.interface';
 
 @Component({
   selector: 'app-input-wrapper',

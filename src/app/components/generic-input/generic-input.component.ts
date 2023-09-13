@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FormCell } from 'src/app/services/formspec/form-spec.interface';
+import { FormCell } from 'src/interfaces/form-spec.interface';
 
 @Component({
   selector: 'app-generic-input',
